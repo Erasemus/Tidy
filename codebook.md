@@ -24,6 +24,7 @@ The resulting file, tidy.txt can be imported in R using "read.table" It meets th
 
 ###Data Descriptions
 The file tidyNarrow.txt has three columns as described below:
+
 1. Subject_Activity - the script creates this variable by combining the source files with names subject_<instance>.txt and y_<instance>.txt where instance values comprise 'test' and 'train'. Thus subject_test.txt values combine pairwise with y_test.txt values and subject_train.txt values combine pairwise with y_train.txt values. The index for each y_<instance> value has been replaced with the corresponding activity name from the file activity_labels.txt
 2. Variables - the values in the variables column represent the names of mean and standard deviation measurements from the file features.txt whose names have been selected because they contain 'mean()' or 'std()'. The values in variables have been made consistent with use as R variable names by removing '()' and replacing '-' with '_'. See <> for the description of these variables.
 3. means - this column contains the arithmetic means of all values for each Variable value grouped by Subject_Activity.
