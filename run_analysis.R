@@ -1,12 +1,40 @@
-##need these packages for sumarization
+##need these packages for summarization
 require(dplyr)
 require(reshape2)
 ## Download files and record time
-## <>
+## location of data
+dlink<-"https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+##
+## download and unzip the file
+##
+#
+## Create a temporary directory to hold the zipfile
+##
+temp <- tempfile()
+## 
+zipdest<-paste(temp,"data.zip",sep="/")
+## Download the file
+##
+print("Downloading Zip file")
+## 
+download.file(dlink,zipdest,method="curl")
+zipfile <- list.files(temp)
+##
+##Create a name for the dir where we'll unzip
+##
+zipdir <- tempfile()
+##
+##Create the dir using the temp name
+##
+dir.create(zipdir)
+# Unzip the file into the dir
+unzip(zipfile, exdir=zipdir)
+unlink(temp)
+print(zipfile)
 ##
 ##set the directory to the main level
 ##
-setwd("~/Documents/CourseraData ScienceHopkins/UCI HAR Dataset")
+##setwd("~/Documents/CourseraData ScienceHopkins/UCI HAR Dataset")
 ##
 ##get the feature names
 ##
@@ -16,7 +44,8 @@ features<-read.table("features.txt")
 ##
 cni<-getTgtColNames(as.character(features[,2]))
 ##
-##clean up the names by removing parentheses
+## create the column names variable (cn) from the chosen columns in the column index and
+## clean up the names by removing parentheses 
 ##
 cn<-gsub("\\(\\)","",features[cni,2])
 ##
@@ -41,7 +70,9 @@ testSub_id<-read.table("subject_test.txt")
 ## get the target columns
 ##
 test<-test_x[,cni]
+##
 ## create a vector combining the Subject ID and the Activity Name
+##  
 Subject_Activity<-paste(testSub_id$V1,aLabels[test_y$V1,2],sep="_")
 ##
 ##bind the columns for the subject and the activity 
@@ -89,7 +120,66 @@ CD<- rbind(test,train)
 ##
 ##Summarize the Data to create a narrow tidy data frame
 ## inspired by  http://stackoverflow.com/questions/21295936/can-dplyr-summarise-over-several-variables-without-listing-each-one
+##
+## melt the combined data
+##
 CDMelted<-melt(CD, id.var='Subject_Activity')
-dmg<-group_by(CDMelted, Subject_Activity, variable); 
-tidy<-summarise(dmg, means=mean(value))
-write.table(tidy,"tidy")
+##
+## Group the data by Subject_Activity
+grouped<-group_by(CDMelted, Subject_Activity, variable); 
+##
+## Apply the mean function to the grouped data 
+##
+tidy<-summarise(grouped, means=mean(value))
+##
+## Prepare to write results
+##
+## write out the narrow results -
+##
+write.table(tidy,"tidyNarrow.txt",row.names= FALSE)
+## 
+## create the wide version
+widy<-dcast(tidy, Subject_Activity~variable)
+##
+## Write out the wide results
+##
+write.table(widy,"tidyNarrow.txt",row.names= FALSE)
+##
+##Function getTgtColNames - Returns a sorted vector of the matches for the strings 
+## 'mean()' and 'std()'
+## in the input vector
+#
+getTgtColNames<- function(cols) {
+  sstr<-"mean\\(\\)"
+  cn1<-grep(sstr,cols)
+  sstr<-"std\\(\\)"
+  cn2<-grep(sstr,cols)
+  cols<-c(as.numeric(cn1), as.numeric(cn2))
+  cols<-sort(cols)
+}
+read.zip <- function(url,zipfile, row.names=NULL, dec=".") {
+  ##
+  ## Create a temporary directory to hold the zipfile
+  ##
+  temp <- tempfile()
+  ## 
+  ## Download the file
+  ##
+  print("Downloading Zip file")
+  ## 
+  download.file(url,temp)
+  zipfile <- list.files(temp)
+  ##
+  ##Create a name for the dir where we'll unzip
+  ##
+  zipdir <- tempfile()
+  ##
+  ##Create the dir using the temp name
+  ##
+  dir.create(zipdir)
+  # Unzip the file into the dir
+  unzip(zipfile, exdir=zipdir)
+  unlink(temp)
+  print(zipfile)
+  return(zipfile)
+}

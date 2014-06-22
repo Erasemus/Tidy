@@ -1,11 +1,14 @@
 ---
 #title: "Readme.MD"
 author: "Randy Catoe"
-date: "June 22, 2014"
-output: html_document
+date: "June 22, 2014""
 
 ### Purpose of this document
 This document describes the associated files run_analyses.R, tidy.txt and codebook.md
+###File Desciptions:
+run_analyses.R -- r source that performs all steps to produce the file tidy.txt
+tidy.txt - A tidy data file that contains the project results. This file can be inported in R using "read.table"
+Codebook.txt - a description of the variables in tidy.txt
 ###Project attribution
 The files are submitted as the course project for  the "Getting and Cleaning Data" course offered on Coursera and created by Jeff Leek, PhD, Roger D. Peng, PhD, Brian Caffo, PhD in association with the Johns Hopkins Blomberg School of Public Health'</P>
 The project uses data from the Human Activity Recognition Using Smartphones Data Set created by Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
@@ -26,10 +29,23 @@ The resulting file, tidy.tx can be read inported in using "read.table" It meets 
   1. the target subset of variables from those contained in the features.txt file contain either the string "mean()" or the string "std()" and other variables that contain "mean" or "std" have been eliminated from the results.
   2. the correction of typographical errors in the variable names is not a desired outcome due to the resulting lack of traceability to the original work
   3. A "Narrow" tidy data base is preferred for this data because of the ease of viewing a 3 column table versus a table with more columns than can be easily viewed side-by-side (see https://class.coursera.org/getdata-004/forum/thread?thread_id=262)
+  
 ###Approach: (as demonstrated in run_analyses,R)
   1. download the zipped data files from the archive
   2. get the time of download for reference
   3. get an index to the columns that contain the target variables using  the function trgtNames , created for this purpose 
-  4. 
-###File Desciptions:
-run_analyses.R -- 
+  4. create and clean up a vector of column names for the set of selected columns
+  5. get the activity labels from the file activity_labels.txt
+  6. create dataframe from the test data observations in X_test.txt
+  7. create a dataframe for the activity indexes in y_test.txt
+  8. create a dataframe from the subject ids for the test data from file subject_test.txt
+  9. create the dataframe test by selecting the columns in the X test data that match the name criteria as recorded in the index cni
+  10. create a vector, Subject_Activity,  that for each observation combines the subject id and the activity name
+  11. use cbind to combine Subject_Activity vector as a column with the observation data in data frame test
+  12. add the name Subject_Activity to the column names in (cn)
+  13. apply the updated column names in cn to the dataframe test
+  14. repeat steps 6-11 for the training data
+  15. repeat step 13 for the dataframe named train produce in step 14
+  16. use rbind to merge the training and test dataframes into dataframe CD
+  17. Summarize CD by using dplyr and reshape2 to create a narrow tidy file by first melting CD by Subject_Activity, then grouping by Subject_activity and using summarize to apply the mean function to the grouped values
+  
