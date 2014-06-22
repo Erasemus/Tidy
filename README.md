@@ -18,9 +18,9 @@ To combine the training and test data from the above datasets and produce a tidy
 ###Success Criteria
 The resulting file, tidy.tx can be read inported in using "read.table" It meets the criteria for "tidiness" as described in http://vita.had.co.nz/papers/tidy-data.pdf
 
-"1. Each variable forms a column.
+  1. Each variable forms a column.
   2. Each observation forms a row.
-  3. Each type of observational unit forms a table."
+  3. Each type of observational unit forms a table.
 ###Assumptons:
   1. the target subset of variables from those contained in the features.txt file contain either the string "mean()" or the string "std()" and other variables that contain "mean" or "std" have been eliminated from the results.
   2. the correction of typographical errors in the variable names is not a desired outcome due to the resulting lack of traceability to the original work
