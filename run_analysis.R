@@ -1,40 +1,12 @@
 ##need these packages for summarization
 require(dplyr)
 require(reshape2)
-## Download files and record time
-## location of data
-dlink<-"https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-##
-## download and unzip the file
-##
-#
-## Create a temporary directory to hold the zipfile
-##
-temp <- tempfile()
-## 
-zipdest<-paste(temp,"data.zip",sep="/")
-## Download the file
-##
-print("Downloading Zip file")
-## 
-download.file(dlink,zipdest,method="curl")
-zipfile <- list.files(temp)
-##
-##Create a name for the dir where we'll unzip
-##
-zipdir <- tempfile()
-##
-##Create the dir using the temp name
-##
-dir.create(zipdir)
-# Unzip the file into the dir
-unzip(zipfile, exdir=zipdir)
-unlink(temp)
-print(zipfile)
+## assumes that the files are in ~/Documents/CourseraData ScienceHopkins/UCI HAR Dataset
 ##
 ##set the directory to the main level
 ##
-##setwd("~/Documents/CourseraData ScienceHopkins/UCI HAR Dataset")
+##
+setwd("~/Documents/CourseraData ScienceHopkins/UCI HAR Dataset")
 ##
 ##get the feature names
 ##
@@ -42,7 +14,12 @@ features<-read.table("features.txt")
 ##
 ## get the index for the subset of columns that contain 'mean()' or 'std()
 ##
-cni<-getTgtColNames(as.character(features[,2]))
+sstr<-"mean\\(\\)" # search for "mean()"
+cn1<-grep(sstr,as.character(features[,2])
+sstr<-"std\\(\\)" # search for "std()"
+cn2<-grep(sstr,as.character(features[,2])
+cols<-c(as.numeric(cn1), as.numeric(cn2))
+cni<-sort(cols)
 ##
 ## create the column names variable (cn) from the chosen columns in the column index and
 ## clean up the names by removing parentheses 
@@ -149,37 +126,3 @@ write.table(widy,"tidyNarrow.txt",row.names= FALSE)
 ## 'mean()' and 'std()'
 ## in the input vector
 #
-getTgtColNames<- function(cols) {
-  sstr<-"mean\\(\\)"
-  cn1<-grep(sstr,cols)
-  sstr<-"std\\(\\)"
-  cn2<-grep(sstr,cols)
-  cols<-c(as.numeric(cn1), as.numeric(cn2))
-  cols<-sort(cols)
-}
-read.zip <- function(url,zipfile, row.names=NULL, dec=".") {
-  ##
-  ## Create a temporary directory to hold the zipfile
-  ##
-  temp <- tempfile()
-  ## 
-  ## Download the file
-  ##
-  print("Downloading Zip file")
-  ## 
-  download.file(url,temp)
-  zipfile <- list.files(temp)
-  ##
-  ##Create a name for the dir where we'll unzip
-  ##
-  zipdir <- tempfile()
-  ##
-  ##Create the dir using the temp name
-  ##
-  dir.create(zipdir)
-  # Unzip the file into the dir
-  unzip(zipfile, exdir=zipdir)
-  unlink(temp)
-  print(zipfile)
-  return(zipfile)
-}

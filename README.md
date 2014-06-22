@@ -31,21 +31,20 @@ The resulting file, tidy.tx can be read inported in using "read.table" It meets 
   3. A "Narrow" tidy data base is preferred for this data because of the ease of viewing a 3 column table versus a table with more columns than can be easily viewed side-by-side (see https://class.coursera.org/getdata-004/forum/thread?thread_id=262)
   
 ###Approach: (as demonstrated in run_analyses,R)
-  1. download the zipped data files from the archive
-  2. get the time of download for reference
-  3. get an index to the columns that contain the target variables using  the function trgtNames , created for this purpose 
-  4. create and clean up a vector of column names for the set of selected columns
-  5. get the activity labels from the file activity_labels.txt
-  6. create dataframe from the test data observations in X_test.txt
-  7. create a dataframe for the activity indexes in y_test.txt
-  8. create a dataframe from the subject ids for the test data from file subject_test.txt
-  9. create the dataframe test by selecting the columns in the X test data that match the name criteria as recorded in the index cni
-  10. create a vector, Subject_Activity,  that for each observation combines the subject id and the activity name
-  11. use cbind to combine Subject_Activity vector as a column with the observation data in data frame test
-  12. add the name Subject_Activity to the column names in (cn)
-  13. apply the updated column names in cn to the dataframe test
-  14. repeat steps 6-11 for the training data
-  15. repeat step 13 for the dataframe named train produce in step 14
-  16. use rbind to merge the training and test dataframes into dataframe CD
-  17. Summarize CD by using dplyr and reshape2 to create a narrow tidy file by first melting CD by Subject_Activity, then grouping by Subject_activity and using summarize to apply the mean function to the grouped values
+ 
+  1. get an index to the columns that contain the target variables  
+  2. create and clean up a vector of column names for the set of selected columns
+  3. get the activity labels from the file activity_labels.txt
+  4. create dataframe from the test data observations in X_test.txt
+  5. create a dataframe for the activity indexes in y_test.txt
+  6. create a dataframe from the subject ids for the test data from file subject_test.txt
+  7. create the dataframe test by selecting the columns in the X test data that match the name criteria as recorded in the index cni
+  8. create a vector, Subject_Activity,  that for each observation combines the subject id and the activity name
+  9. use cbind to combine Subject_Activity vector as a column with the observation data in data frame test
+  10. add the name Subject_Activity to the column names in (cn)
+  11. apply the updated column names in cn to the dataframe test
+  12. repeat steps 4-9 for the training data
+  13. repeat step 11 for the dataframe named train produce in step 14
+  14. use rbind to merge the training and test dataframes into dataframe CD
+  15. Summarize CD by using dplyr and reshape2 to create a narrow tidy file by first melting CD by Subject_Activity, then grouping by Subject_activity and using summarize to apply the mean function to the grouped values
   
