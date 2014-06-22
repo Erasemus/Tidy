@@ -15,9 +15,9 @@ features<-read.table("features.txt")
 ## get the index for the subset of columns that contain 'mean()' or 'std()
 ##
 sstr<-"mean\\(\\)" # search for "mean()"
-cn1<-grep(sstr,as.character(features[,2])
+cn1<-grep(sstr,as.character(features[,2]))
 sstr<-"std\\(\\)" # search for "std()"
-cn2<-grep(sstr,as.character(features[,2])
+cn2<-grep(sstr,as.character(features[,2]))
 cols<-c(as.numeric(cn1), as.numeric(cn2))
 cni<-sort(cols)
 ##
