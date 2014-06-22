@@ -16,7 +16,7 @@ For a description of the data see http://archive.ics.uci.edu/ml/datasets/Human+A
 ###Project Goals:
 To combine the training and test data from the above datasets and produce a tidy data set that contains the mean values for all data in the combined test and training data set where the variables are means or standard deviations of observed data, by subject and activity. 
 ###Success Criteria
-The resulting file, tidy.tx can be read inported in using "read.table" It meets the criteria for "tidiness" as described in http://vita.had.co.nz/papers/tidy-data.pdf
+The resulting file, tidy.tx can be read inported in using "read.table" It meets the criteria for tidiness as described in http://vita.had.co.nz/papers/tidy-data.pdf
 
   1. Each variable forms a column.
   2. Each observation forms a row.
