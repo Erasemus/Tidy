@@ -120,7 +120,7 @@ widy<-dcast(tidy, Subject_Activity~variable)
 ##
 ## Write out the wide results
 ##
-write.table(widy,"tidyNarrow.txt",row.names= FALSE)
+write.table(widy,"tidyWidy.txt",row.names= FALSE)
 ##
 ##Function getTgtColNames - Returns a sorted vector of the matches for the strings 
 ## 'mean()' and 'std()'
